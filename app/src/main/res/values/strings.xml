@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ExampleFirebase2020</string>
+
+    <string-array name="arrayGeneros">
+        <item>Femenino</item>
+        <item>Masculino</item>
+        <item>Otro</item>
+    </string-array>
+
+</resources>

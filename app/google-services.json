@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "541036811191",
+    "firebase_url": "https://examplefirebase2020.firebaseio.com",
+    "project_id": "examplefirebase2020",
+    "storage_bucket": "examplefirebase2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541036811191:android:4742d559bfd61ee40d4e32",
+        "android_client_info": {
+          "package_name": "com.gavilan.examplefirebase2020"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541036811191-5qkefrlnd7h11lfnmoef60ln73g34d6k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoWmusmFEKwOBYJLFCQ3WlptkaIc58IT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541036811191-5qkefrlnd7h11lfnmoef60ln73g34d6k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
