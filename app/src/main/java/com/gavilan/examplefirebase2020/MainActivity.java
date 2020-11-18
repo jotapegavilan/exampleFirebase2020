@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -55,18 +57,89 @@ public class MainActivity extends AppCompatActivity {
         //CARGAR RECYCLER
         cargarRecycler();
 
+        btnActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newNombre = txtNombre.getText().toString();
+                String newGenero = spGenero.getSelectedItem().toString();
+                usuario.setNombre(newNombre);
+                usuario.setGenero(newGenero);
+                reference.child("usuarios").child(usuario.getId()).setValue(usuario, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        mensajeToast("Actualización de usuario completada");
+                    }
+                });
+            }
+        });
+
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reference.child("usuarios").child(usuario.getId()).removeValue();
+            }
+        });
+
+        recyclerUsuarios.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View view = rv.findChildViewUnder(e.getX(),e.getY());
+                if(view != null){
+                    int posicion = rv.getChildAdapterPosition(view);
+                    usuario = arrayListUsuaios.get(posicion);
+                    txtNombre.setText(usuario.getNombre());
+                    if(usuario.getGenero().equals("Femenino")){
+                        spGenero.setSelection(1);
+                    }else if(usuario.getGenero().equals("Masculino")){
+                        spGenero.setSelection(2);
+                    }else{
+                        spGenero.setSelection(3);
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // CAPTURAR LOS DATOS DE LA UI
-                String id = UUID.randomUUID().toString();
-                String nombre = txtNombre.getText().toString().trim();
-                String genero = spGenero.getSelectedItem().toString();
-                // GENERAR EL OBJETO USUARIO
-                Usuario usuario = new Usuario(id,nombre,genero);
-                insertarUsuario(usuario);
+                // VERIFICAR SI EL SPINNER ESTA EN "SELECCIONE"
+                if(spGenero.getSelectedItemPosition() == 0){
+                    mensajeToast("Debe seleccionar un genero.");
+                }else if(txtNombre.getText().toString().isEmpty()){
+                    mensajeToast("El nombre no puede quedar vacío.");
+                }else{
+                    // CAPTURAR LOS DATOS DE LA UI
+                    String id = UUID.randomUUID().toString();
+                    String nombre = txtNombre.getText().toString().trim();
+                    String genero = spGenero.getSelectedItem().toString();
+                    // GENERAR EL OBJETO USUARIO
+                    Usuario usuario = new Usuario(id,nombre,genero);
+                    insertarUsuario(usuario);
+                    limpiarFormulario();
+                }
+
             }
         });
+    }
+
+    public void mensajeToast(String mensaje){
+        Toast.makeText(this,mensaje,Toast.LENGTH_LONG).show();
+    }
+
+    public void limpiarFormulario(){
+        txtNombre.setText("");
+        spGenero.setSelection(0);
     }
 
     public void conectarFirebase(){

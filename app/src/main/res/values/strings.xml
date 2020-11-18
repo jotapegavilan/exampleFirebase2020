@@ -2,6 +2,7 @@
     <string name="app_name">ExampleFirebase2020</string>
 
     <string-array name="arrayGeneros">
+        <item>Seleccione</item>
         <item>Femenino</item>
         <item>Masculino</item>
         <item>Otro</item>
