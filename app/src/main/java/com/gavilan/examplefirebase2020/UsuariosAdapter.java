@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gavilan.examplefirebase2020.entidades.Usuario;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,13 @@ public class UsuariosAdapter extends RecyclerView.Adapter<UsuariosAdapter.viewHo
         }
         public void cargarUsuario(Usuario usuario){
             txtNombreUsuario.setText(usuario.getNombre());
+            if(usuario.getGenero().equals("Femenino")){
+                Picasso.get().load(R.drawable.woman).into(imgGenero);
+            }else if(usuario.getGenero().equals("Masculino")){
+                Picasso.get().load(R.drawable.male).into(imgGenero);
+            }else{
+                Picasso.get().load(R.drawable.question).into(imgGenero);
+            }
         }
 
 
